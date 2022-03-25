@@ -62,7 +62,7 @@ func newDeckFromFile(filename string) deck {
 	return deck(strData)
 }
 
-// pseudo-randomly shuffles the deck of cards by using the current time as random seed
+// randomly shuffles the deck of cards by using the current time as random seed
 func (d deck) shuffle() deck {
 	rand.Seed(time.Now().UnixNano())
 	rand.Shuffle(len(d), func(i, j int) { d[i], d[j] = d[j], d[i] })
