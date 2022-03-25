@@ -1,3 +1,4 @@
+// this file should define our custom type 'deck' which is a slice of strings
 package main
 
 import (
@@ -9,15 +10,16 @@ import (
 	"time"
 )
 
-// this file should define our custom type 'deck' which is a slice of strings
 type deck []string
 
+// prints contents of current deck
 func (d deck) print() {
 	for i, card := range d {
 		fmt.Println(i, card)
 	}
 }
 
+// creates new deck
 func newDeck() deck {
 	cards := deck{}
 
@@ -33,10 +35,12 @@ func newDeck() deck {
 	return cards
 }
 
+// cuts deck into separate decks of handSize and remaining cards
 func deal(d deck, handSize int) (deck, deck) {
 	return d[:handSize], d[handSize:]
 }
 
+// type converter helper func
 func (d deck) toString() string {
 	return strings.Join([]string(d), ",")
 }
@@ -46,7 +50,7 @@ func (d deck) saveToFile(fileName string) error {
 	return ioutil.WriteFile(fileName, []byte(d.toString()), 0666)
 }
 
-// this func will create a list of cards fro ma file on the local machine
+// this func will create a list of cards from a file on the local machine
 func newDeckFromFile(filename string) deck {
 	data, err := ioutil.ReadFile(filename)
 	strData := strings.Split(string(data), ",")
@@ -58,6 +62,7 @@ func newDeckFromFile(filename string) deck {
 	return deck(strData)
 }
 
+// pseudo-randomly shuffles the deck of cards by using the current time as random seed
 func (d deck) shuffle() deck {
 	rand.Seed(time.Now().UnixNano())
 	rand.Shuffle(len(d), func(i, j int) { d[i], d[j] = d[j], d[i] })
